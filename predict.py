@@ -15,7 +15,7 @@ def bounce(posList, frame):
 
 VIDEOS_DIR = os.path.join('.', 'videos')
 
-video_path = os.path.join(VIDEOS_DIR, 'v3.mp4')
+video_path = os.path.join(VIDEOS_DIR, 'v1.mp4')
 video_path_out = '{}_out.mp4'.format(video_path)
 
 cap = cv2.VideoCapture(video_path)
@@ -25,7 +25,7 @@ out = cv2.VideoWriter(video_path_out, cv2.VideoWriter_fourcc(*'mp4v'), int(cap.g
 #33 is the best
 # 7 is where the table is good
 # now trying 9 because it finishes 800 runs
-model_path = os.path.join('.', 'runs', 'detect', 'train8', 'weights', 'last.pt')
+model_path = os.path.join('.', 'train8', 'weights', 'last.pt')
 
 # Load a model
 model = YOLO(model_path)  # load a custom model
@@ -34,7 +34,7 @@ threshold = 0.00001
 posList = []
 while ret:
 #max_det=3  in model.predict say how many object i want to detect
-    results = model.predict(frame, )[0]
+    results = model.predict(frame, max_det=3)[0]
 
     for result in results.boxes.data.tolist():
         x1, y1, x2, y2, score, class_id = result
@@ -64,14 +64,3 @@ while ret:
 cap.release()
 out.release()
 cv2.destroyAllWindows()
-
-
-
-
-
-
-
-
-
-
-
